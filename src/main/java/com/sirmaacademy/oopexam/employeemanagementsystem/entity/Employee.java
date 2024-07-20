@@ -2,6 +2,7 @@ package com.sirmaacademy.oopexam.employeemanagementsystem.entity;
 
 import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Department;
 import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Role;
+import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Status;
 
 import java.math.BigDecimal;
 
@@ -13,10 +14,12 @@ public class Employee {
     private Department department;
     private Role role;
     private BigDecimal salary;
+    private Status status;
 
     /**
      * Use this constructor only when creating new Employee.
      * ID is auto set which creates uniqueness.
+     * Status is auto set to ACTIVE when new employee is added.
      */
     public Employee(String name, Department department, Role role, double salary) {
         this.id = INITIAL_ID;
@@ -24,19 +27,21 @@ public class Employee {
         this.department = department;
         this.role = role;
         this.salary = BigDecimal.valueOf(salary);
+        this.status = Status.ACTIVE;
         INITIAL_ID++;
     }
 
     /**
      * Use this constructor when import employees from .csv file with already set values.
-     * I am using constructor instead DTO class, because we haven't used ModelMapper yet.
+     * I am using constructor instead DTO class, because we haven't used mapper (ModelMapper) yet.
      */
-    public Employee(int id, String name, Department department, Role role, BigDecimal salary) {
+    public Employee(int id, String name, Department department, Role role, BigDecimal salary, Status status) {
         this.id = id;
         this.name = name;
         this.department = department;
         this.role = role;
         this.salary = salary;
+        this.status = status;
     }
 
     public int getId() {
