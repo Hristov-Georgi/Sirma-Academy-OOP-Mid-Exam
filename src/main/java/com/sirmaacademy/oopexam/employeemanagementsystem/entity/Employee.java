@@ -10,7 +10,8 @@ public class Employee {
     private static int INITIAL_ID = 1;
 
     private int id;
-    private String name;          // TODO: add full name ??
+    private String firstName;          // TODO: add full name ??
+    private String lastName;
     private Department department;
     private Role role;
     private BigDecimal salary;
@@ -21,9 +22,10 @@ public class Employee {
      * ID is auto set which creates uniqueness.
      * Status is auto set to ACTIVE when new employee is added.
      */
-    public Employee(String name, Department department, Role role, double salary) {
+    public Employee(String firstName, String lastName, Department department, Role role, double salary) {
         this.id = INITIAL_ID;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.department = department;
         this.role = role;
         this.salary = BigDecimal.valueOf(salary);
@@ -35,9 +37,10 @@ public class Employee {
      * Use this constructor when import employees from .csv file with already set values.
      * I am using constructor instead DTO class, because we haven't used mapper (ModelMapper) yet.
      */
-    public Employee(int id, String name, Department department, Role role, BigDecimal salary, Status status) {
+    public Employee(int id, String firstName, String lastName, Department department, Role role, BigDecimal salary, Status status) {
         this.id = id;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.department = department;
         this.role = role;
         this.salary = salary;
@@ -48,12 +51,28 @@ public class Employee {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public Department getDepartment() {
@@ -87,8 +106,9 @@ public class Employee {
      */
     @Override
     public String toString() {
-        return String.format("%d, %s, %s, %s, %s",
-                this.id, this.name, this.department.getValue(), this.role.getValue(), this.salary);
+        return String.format("%d, %s, %s, %s, %s, %s, %s",
+                this.id, this.firstName, this.lastName, this.department.getValue(),
+                this.role.getValue(), this.salary, this.status.name());
     }
 
 }
