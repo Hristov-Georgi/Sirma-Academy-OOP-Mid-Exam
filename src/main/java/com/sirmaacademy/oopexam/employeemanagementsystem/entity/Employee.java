@@ -13,5 +13,23 @@ public class Employee {
     private Role role;
     private BigDecimal salary;
 
+    public Employee(int id, String name, Department department, Role role, double salary) {
+        this.id = id;
+        this.name = name;
+        this.department = department;
+        this.role = role;
+        this.salary = BigDecimal.valueOf(salary);
+    }
+
+    /**
+     * Format is compatible with .csv file format.
+     * Method is used to properly save the data in .csv file before program finish execution;
+     * @return
+     */
+    @Override
+    public String toString() {
+        return String.format("id: %d, name: %s, department: %s, role: %s, salary: %s",
+                this.id, this.name, this.department.getValue(), this.role.getValue(), this.salary);
+    }
 
 }
