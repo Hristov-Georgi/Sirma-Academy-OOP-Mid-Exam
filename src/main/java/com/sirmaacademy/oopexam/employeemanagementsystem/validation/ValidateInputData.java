@@ -7,6 +7,25 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public abstract class ValidateInputData {
+    private static final double MINIMAL_SALARY = 933;
+
+    public static double validateSalary(BufferedReader reader) throws IOException {
+        System.out.println("Enter salary:");
+        String input = reader.readLine();
+
+        try {
+            double salary = Double.parseDouble(input);
+
+            if (salary < MINIMAL_SALARY) {
+                System.out.println("Salary should not be less than " + MINIMAL_SALARY);
+                validateSalary(reader);
+            }
+        } catch (NumberFormatException ex) {
+            System.out.println("Invalid salary format. Enter valid number");
+            validateSalary(reader);
+        }
+        return Double.parseDouble(input);
+    }
 
     public static Role validateRole(BufferedReader reader) throws IOException {
         System.out.println("Enter employee role:");
