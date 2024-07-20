@@ -1,2 +1,4 @@
-package com.sirmaacademy.oopexam.employeemanagementsystem.validation;public class ValidateInputData {
+package com.sirmaacademy.oopexam.employeemanagementsystem.validation;
+
+public class ValidateInputData {
 }
