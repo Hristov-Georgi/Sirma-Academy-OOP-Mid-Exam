@@ -14,6 +14,10 @@ public class Employee {
     private Role role;
     private BigDecimal salary;
 
+    /**
+     * Use this constructor only when creating new Employee.
+     * ID is auto set which creates uniqueness.
+     */
     public Employee(String name, Department department, Role role, double salary) {
         this.id = INITIAL_ID;
         this.name = name;
@@ -21,6 +25,18 @@ public class Employee {
         this.role = role;
         this.salary = BigDecimal.valueOf(salary);
         INITIAL_ID++;
+    }
+
+    /**
+     * Use this constructor when import employees from .csv file with already set values.
+     * I am using constructor instead DTO class, because we haven't used ModelMapper yet.
+     */
+    public Employee(int id, String name, Department department, Role role, BigDecimal salary) {
+        this.id = id;
+        this.name = name;
+        this.department = department;
+        this.role = role;
+        this.salary = salary;
     }
 
     public int getId() {
