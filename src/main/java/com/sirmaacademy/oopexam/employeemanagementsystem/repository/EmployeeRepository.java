@@ -1,6 +1,7 @@
 package com.sirmaacademy.oopexam.employeemanagementsystem.repository;
 
 import com.sirmaacademy.oopexam.employeemanagementsystem.entity.Employee;
+import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Status;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -36,7 +37,6 @@ public class EmployeeRepository {
             }
 
         }
-
         return employees;
     }
 
@@ -50,7 +50,6 @@ public class EmployeeRepository {
             }
 
         }
-
         return employees;
     }
 
@@ -64,7 +63,6 @@ public class EmployeeRepository {
             }
 
         }
-
         return employees;
     }
 
@@ -78,6 +76,32 @@ public class EmployeeRepository {
 
         }
         throw new NoSuchElementException("Employee with " + id + " not found.");
+    }
+
+    public List<Employee> findAllByDepartment(String department) {
+        List<Employee> employees = new ArrayList<>();
+
+        for (Employee e : employeeList) {
+
+            if (e.getDepartment().getValue().equals(department)){
+                employees.add(e);
+            }
+
+        }
+        return employees;
+    }
+
+    public List<Employee> getAllActive() {
+        List<Employee> employees = new ArrayList<>();
+
+        for (Employee e : employeeList) {
+
+            if (e.getStatus().equals(Status.ACTIVE)){
+                employees.add(e);
+            }
+
+        }
+        return employees;
     }
 
 //    private List<Employee> loadFiredEmployees() {

@@ -41,12 +41,12 @@ public class EmployeeServiceLogic implements EmployeeService {
 
     @Override
     public List<Employee> findAllByDepartment(String department) {
-        return List.of();
+        return this.employeeRepository.findAllByDepartment(department);
     }
 
     @Override
     public List<Employee> getAllActive() {
-        return List.of();
+        return this.employeeRepository.getAllActive();
     }
 
     @Override
