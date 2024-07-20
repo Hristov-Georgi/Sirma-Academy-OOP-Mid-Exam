@@ -1,9 +1,46 @@
 package com.sirmaacademy.oopexam.employeemanagementsystem.validation;
 
+import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Department;
+import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Role;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 
 public abstract class ValidateInputData {
+
+    public static Role validateRole(BufferedReader reader) throws IOException {
+        System.out.println("Enter employee role:");
+        String input = reader.readLine();
+
+        Role[] values = Role.values();
+
+        for (Role r : values) {
+
+            if (r.getValue().equalsIgnoreCase(input)) {
+                return Role.valueOf(r.name());
+            }
+
+        }
+        System.out.println("Invalid Role.");
+        return validateRole(reader);
+    }
+
+    public static Department validateDepartment(BufferedReader reader) throws IOException {
+        System.out.println("Enter department name:");
+        String input = reader.readLine();
+
+        Department[] values = Department.values();
+
+        for (Department v : values) {
+
+            if (v.getValue().equalsIgnoreCase(input)) {
+                return Department.valueOf(v.name());
+            }
+
+        }
+        System.out.println("Invalid Department.");
+        return validateDepartment(reader);
+    }
 
     public static String validateName(BufferedReader reader) throws IOException {
         String name = reader.readLine();
@@ -22,6 +59,6 @@ public abstract class ValidateInputData {
 
         }
         return name.trim();
-
     }
+
 }
