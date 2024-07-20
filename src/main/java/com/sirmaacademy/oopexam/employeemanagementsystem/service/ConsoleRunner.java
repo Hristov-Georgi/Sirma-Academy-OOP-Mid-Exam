@@ -4,6 +4,7 @@ import com.sirmaacademy.oopexam.employeemanagementsystem.entity.Employee;
 import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Department;
 import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Role;
 import com.sirmaacademy.oopexam.employeemanagementsystem.service.employeeserviceimpl.EmployeeServiceLogic;
+import com.sirmaacademy.oopexam.employeemanagementsystem.validation.ValidateInputData;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,7 +23,7 @@ public abstract class ConsoleRunner {
     public static void printMenu() {
         System.out.println("Employee Management Menu");
         System.out.println();
-        System.out.println("Type one of the following Integers to execute described command:");
+        System.out.println("Type one of the following Integers to execute desired command:");
         System.out.println("1 - Add new employee");
         System.out.println("2 - Edit employee");
         System.out.println("3 - Fire employee");
@@ -32,7 +33,7 @@ public abstract class ConsoleRunner {
         System.out.println("7 - Search by last name");
         System.out.println("8 - Search by first and last names");
         System.out.println("9 - Display all active employees (non discharged)");
-        System.out.println("10 - Exit from menu and close program");
+        System.out.println("10 - Save all manipulated data and exit from Employee Management System");
         System.out.println();
     }
 
@@ -43,26 +44,31 @@ public abstract class ConsoleRunner {
 
             while (input != null) {
 
+                try {
+                    int n = Integer.parseInt(input);
+                } catch (NumberFormatException ex) {
+                    System.out.println("Invalid command. Choose command from the menu:");
+                    readCommands();
+                }
+
                 switch (Integer.parseInt(input)) {
                     case 1:
                         System.out.println("Enter employee first name:");
-                        String firstName = reader.readLine();
+                        String firstName = ValidateInputData.validateName(reader);
                         System.out.println("Enter employee last name:");
-                        String lastName = reader.readLine();
-                        System.out.println("Enter department name:");
-                        String department = reader.readLine();
-                        System.out.println("Enter employee role:");
-                        String role = reader.readLine();
-                        System.out.println("Enter salary:");
-                        double salary = Double.parseDouble(reader.readLine());
+                        String lastName = ValidateInputData.validateName(reader);
+                        Department department = ValidateInputData.validateDepartment(reader);
+                        Role role = ValidateInputData.validateRole(reader);
+                        double salary = ValidateInputData.validateSalary(reader);
 
                         Employee employee = new Employee(firstName, lastName,
-                                Department.valueOf(department.toUpperCase()),
-                                Role.valueOf(role.toUpperCase()), salary);
+                                department, role, salary);
 
                         EMPLOYEE_SERVICE.add(employee);
+                        //TODO: return boolean and print if the command is successful ??
+
 //TODO: enums validation and explanation how to be entered. May print list of enums ?
-                       //TODO: set values in methods and verify data. That will save last entered data
+                        //TODO: set values in methods and verify data. That will save last entered data
                         break;
                     case 2:
                         break;
@@ -87,8 +93,8 @@ public abstract class ConsoleRunner {
                 }
 
                 input = reader.readLine();
+                System.out.println("Enter new command:");
             }
-
 
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
