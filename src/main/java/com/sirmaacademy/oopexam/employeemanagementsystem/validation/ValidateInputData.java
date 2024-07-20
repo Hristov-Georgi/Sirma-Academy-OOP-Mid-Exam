@@ -1,4 +1,27 @@
 package com.sirmaacademy.oopexam.employeemanagementsystem.validation;
 
-public class ValidateInputData {
+import java.io.BufferedReader;
+import java.io.IOException;
+
+public abstract class ValidateInputData {
+
+    public static String validateName(BufferedReader reader) throws IOException {
+        String name = reader.readLine();
+
+        if (name.isBlank() || name.length() < 2) {
+            System.out.println("Name should be 2 or more symbols long. Enter valid name:");
+            validateName(reader);
+        }
+
+        for (char s : name.toCharArray()) {
+
+            if (s < 65 || 90 < s && s < 97 || 122 < s) {
+                System.out.println("Name should contain only letters. Enter valid name:");
+                validateName(reader);
+            }
+
+        }
+        return name.trim();
+
+    }
 }
