@@ -11,9 +11,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class EmployeeRepository {
-    //TODO: fix file path
-    private static final String ACTIVE_EMPLOYEES_JSON_FILE = "src/main/resources/employeerepository/activeemployees.txt";
-    private static final String FIRED_EMPLOYEES_JSON_FILE = "src/main/resources/employeerepository/firedemployees.txt";
+
+    private static final String EMPLOYEES_CSV_FILE = "src/main/resources/employeerepository/employees_data.csv";
 
     private static final EmployeeRepository OBJECT_INSTANCE = new EmployeeRepository();
 
@@ -104,26 +103,10 @@ public class EmployeeRepository {
         return employees;
     }
 
-//    private List<Employee> loadFiredEmployees() {
-//        List<Employee> firedEmployees = new ArrayList<>();
-//
-//        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(FIRED_EMPLOYEES_JSON_FILE))) {
-//
-//            //TODO: read from json format
-//            //TODO: validate data
-//
-//        } catch (IOException ex) {
-//            //TODO: handle exception
-//        }
-//
-//        return firedEmployees;
-//
-//    }
-
     private List<Employee> loadEmployees() {
-        List<Employee> activeEmployees = new ArrayList<>();
+        List<Employee> employees = new ArrayList<>();
 
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(ACTIVE_EMPLOYEES_JSON_FILE))) {
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(EMPLOYEES_CSV_FILE))) {
 
             //TODO: read from json format
             //TODO: validate data
@@ -132,8 +115,7 @@ public class EmployeeRepository {
         } catch (IOException ex) {
             //TODO: handle exception
         }
-
-        return activeEmployees;
+        return employees;
 
     }
 
