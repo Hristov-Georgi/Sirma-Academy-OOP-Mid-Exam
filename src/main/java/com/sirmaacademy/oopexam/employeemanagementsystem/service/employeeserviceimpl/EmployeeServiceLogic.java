@@ -20,14 +20,23 @@ public class EmployeeServiceLogic implements EmployeeService {
     }
 
     @Override
-    public List<Employee> findAllByName(String name) {
-
-        return this.employeeRepository.findAllByName(name);
+    public List<Employee> findAllByFirstName(String firstName) {
+        return this.employeeRepository.findAllByFirstName(firstName);
     }
 
     @Override
-    public Employee findById(long id) {
-        return null;
+    public List<Employee> findAllByLastName(String lastName) {
+        return this.employeeRepository.findAllByLastName(lastName);
+    }
+
+    @Override
+    public List<Employee> findByFullName(String firstName, String lastName) {
+        return this.employeeRepository.findByFullName(firstName, lastName);
+    }
+
+    @Override
+    public Employee findById(int id) {
+        return this.employeeRepository.findById(id);
     }
 
     @Override

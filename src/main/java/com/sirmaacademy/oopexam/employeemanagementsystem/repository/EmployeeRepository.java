@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class EmployeeRepository {
     //TODO: fix file path
@@ -15,56 +16,87 @@ public class EmployeeRepository {
 
     private static final EmployeeRepository OBJECT_INSTANCE = new EmployeeRepository();
 
-    private List<Employee> activeEmployees;
-    private List<Employee> firedEmployees;
+    private List<Employee> employeeList;
 
     private EmployeeRepository(){
-        this.activeEmployees = loadActiveEmployees();
-        this.firedEmployees = loadFiredEmployees();
+        this.employeeList = loadEmployees();
     }
 
-    public EmployeeRepository getInstance() {
+    public static EmployeeRepository getInstance() {
         return OBJECT_INSTANCE;
     }
 
-    public List<Employee> getActiveEmployees() {
-        return activeEmployees;
-    }
+    public List<Employee> findAllByFirstName(String firstName) {
+        List<Employee> employees = new ArrayList<>();
 
-    public void setActiveEmployees(List<Employee> activeEmployees) {
-        this.activeEmployees = activeEmployees;
-    }
+        for (Employee e : employeeList) {
 
-    public List<Employee> getFiredEmployees() {
-        return firedEmployees;
-    }
+            if (e.getFirstName().equals(firstName)){
+                employees.add(e);
+            }
 
-    public void setFiredEmployees(List<Employee> firedEmployees) {
-        this.firedEmployees = firedEmployees;
-    }
-
-    public List<Employee> readAll() {
-
-        return null;
-    }
-
-    private List<Employee> loadFiredEmployees() {
-        List<Employee> firedEmployees = new ArrayList<>();
-
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(FIRED_EMPLOYEES_JSON_FILE))) {
-
-            //TODO: read from json format
-            //TODO: validate data
-
-        } catch (IOException ex) {
-            //TODO: handle exception
         }
 
-        return firedEmployees;
-
+        return employees;
     }
 
-    private List<Employee> loadActiveEmployees() {
+    public List<Employee> findAllByLastName(String lastName) {
+        List<Employee> employees = new ArrayList<>();
+
+        for (Employee e : employeeList) {
+
+            if (e.getLastName().equals(lastName)){
+                employees.add(e);
+            }
+
+        }
+
+        return employees;
+    }
+
+    public List<Employee> findByFullName(String firstName, String lastName) {
+        List<Employee> employees = new ArrayList<>();
+
+        for (Employee e : employeeList) {
+
+            if (e.getFirstName().equals(firstName) && e.getLastName().equals(lastName)){
+                employees.add(e);
+            }
+
+        }
+
+        return employees;
+    }
+
+    public Employee findById(int id) {
+
+        for (Employee e : employeeList) {
+
+            if (e.getId() == id){
+                return e;
+            }
+
+        }
+        throw new NoSuchElementException("Employee with " + id + " not found.");
+    }
+
+//    private List<Employee> loadFiredEmployees() {
+//        List<Employee> firedEmployees = new ArrayList<>();
+//
+//        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(FIRED_EMPLOYEES_JSON_FILE))) {
+//
+//            //TODO: read from json format
+//            //TODO: validate data
+//
+//        } catch (IOException ex) {
+//            //TODO: handle exception
+//        }
+//
+//        return firedEmployees;
+//
+//    }
+
+    private List<Employee> loadEmployees() {
         List<Employee> activeEmployees = new ArrayList<>();
 
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader(ACTIVE_EMPLOYEES_JSON_FILE))) {
