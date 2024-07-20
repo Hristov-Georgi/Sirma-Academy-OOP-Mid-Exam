@@ -6,6 +6,7 @@ import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Role;
 import java.math.BigDecimal;
 
 public class Employee {
+    private static int INITIAL_ID = 1;
 
     private int id;
     private String name;          // TODO: add full name ??
@@ -13,12 +14,13 @@ public class Employee {
     private Role role;
     private BigDecimal salary;
 
-    public Employee(int id, String name, Department department, Role role, double salary) {
-        this.id = id;
+    public Employee(String name, Department department, Role role, double salary) {
+        this.id = INITIAL_ID;
         this.name = name;
         this.department = department;
         this.role = role;
         this.salary = BigDecimal.valueOf(salary);
+        INITIAL_ID++;
     }
 
     public int getId() {
