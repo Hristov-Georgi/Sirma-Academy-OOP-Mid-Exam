@@ -5,9 +5,7 @@ import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Department;
 import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Role;
 import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Status;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -103,6 +101,17 @@ public class EmployeeRepository {
 
         }
         return employees;
+    }
+
+    public void persistToFile() {
+
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(EMPLOYEES_CSV_FILE))) {
+            bufferedWriter.write(this.employeeList.toString());
+        } catch (IOException ex) {
+            //TODO: is it correct ? or should throw exception ?
+            System.out.println(ex.getMessage());
+        }
+
     }
 
     private List<Employee> loadEmployees() {
