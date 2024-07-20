@@ -1,20 +1,22 @@
 package com.sirmaacademy.oopexam.employeemanagementsystem.repository;
 
 import com.sirmaacademy.oopexam.employeemanagementsystem.entity.Employee;
+import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Department;
+import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Role;
 import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Status;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class EmployeeRepository {
+    private static final EmployeeRepository OBJECT_INSTANCE = new EmployeeRepository();
 
     private static final String EMPLOYEES_CSV_FILE = "src/main/resources/employeerepository/employees_data.csv";
-
-    private static final EmployeeRepository OBJECT_INSTANCE = new EmployeeRepository();
 
     private List<Employee> employeeList;
 
@@ -107,14 +109,28 @@ public class EmployeeRepository {
         List<Employee> employees = new ArrayList<>();
 
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader(EMPLOYEES_CSV_FILE))) {
+            String input = bufferedReader.readLine();
 
-            //TODO: read from json format
-            //TODO: validate data
+            while (input != null) {
+                String[] values = input.split(", ");
 
+                int id = Integer.parseInt(values[0]);
+                String firstName = values[1];
+                String lastName = values[2];
+                Department department = Department.valueOf(values[3]);
+                Role role = Role.valueOf(values[4]);
+                BigDecimal salary = BigDecimal.valueOf(Double.parseDouble(values[5]));
+                Status status = Status.valueOf(values[6]);
 
-        } catch (IOException ex) {
-            //TODO: handle exception
+                Employee employee = new Employee(id, firstName, lastName, department, role, salary, status);
+                employees.add(employee);
+            }
+
+        } catch (IOException e) {
+            //TODO: is it correct ? or should throw exception ?
+            System.out.println(e.getMessage());
         }
+
         return employees;
 
     }
