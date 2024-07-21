@@ -122,8 +122,8 @@ public class EmployeeRepository {
     }
 
     public void modifyDetails(int id, Employee employee) {
-        this.employeeList.remove(id);
-        this.employeeList.add(id, employee);
+        this.employeeList.remove(id - 1);
+        this.employeeList.add(id - 1, employee);
     }
 
     private List<Employee> loadEmployees() {
@@ -152,8 +152,7 @@ public class EmployeeRepository {
             }
 
         } catch (IOException e) {
-            //TODO: is it correct ? or should throw exception ?
-            System.out.println(e.getMessage());
+            System.out.println("Failed to load employees from csv file.");
         }
         return employees;
     }
