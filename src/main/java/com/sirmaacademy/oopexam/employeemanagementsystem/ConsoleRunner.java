@@ -37,8 +37,9 @@ public abstract class ConsoleRunner {
         System.out.println("7 - Search by last name");
         System.out.println("8 - Search by first and last names");
         System.out.println("9 - Display all active employees (not fired (discharged))");
-        System.out.println("10 - Exit and save all data from Employee Management System");
-        System.out.println();
+        System.out.println("10 - Display all Roles");
+        System.out.println("11 - Display all Departments");
+        System.out.println("12 - Exit and save all data from Employee Management System");
     }
 
     public static void readCommands() {
@@ -48,13 +49,13 @@ public abstract class ConsoleRunner {
 
             while (readData) {
                 System.out.println();
-                System.out.println("Enter new command from the Menu:");
+                System.out.println("Enter new integer command from the Menu:");
                 String input = reader.readLine();
 
                 try {
                     int n = Integer.parseInt(input);
                 } catch (NumberFormatException ex) {
-                    System.out.println("Invalid command. Choose command from the menu:");
+                    System.out.println("Invalid command \"" + input + "\"");
                     readCommands();
                 }
 
@@ -232,6 +233,18 @@ public abstract class ConsoleRunner {
                         break;
 
                     case 10:
+                        Role[] roles = Role.values();
+                        System.out.println("Roles:");
+                        printEnumsData(roles);
+                        break;
+
+                    case 11:
+                        Department[] departments = Department.values();
+                        System.out.println("Departments:");
+                        printEnumsData(departments);
+                        break;
+
+                    case 12:
                         EMPLOYEE_SERVICE.saveAll();
                         readData = false;
                         break;
@@ -274,6 +287,14 @@ public abstract class ConsoleRunner {
 
     private static <T> void printListData(List<T> listData) {
         for (T e : listData) {
+            System.out.println(e.toString());
+        }
+
+    }
+
+    private static<T> void printEnumsData(T[] enumArr) {
+
+        for (T e : enumArr) {
             System.out.println(e.toString());
         }
 

@@ -1,7 +1,6 @@
 package com.sirmaacademy.oopexam.employeemanagementsystem.enums;
 
 public enum Role {
-    //TODO: add more roles ?
 
     JUNIOR_JAVA_DEVELOPER ("Junior Java Developer"),
     MID_JAVA_DEVELOPER ("Mid Java Developer"),
@@ -25,6 +24,11 @@ public enum Role {
 
     public String getValue() {
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%d - %s", this.ordinal() + 1, this.getValue());
     }
 
 }

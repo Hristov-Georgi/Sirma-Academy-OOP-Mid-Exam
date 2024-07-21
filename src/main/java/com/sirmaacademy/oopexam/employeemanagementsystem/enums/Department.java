@@ -19,4 +19,8 @@ public enum Department {
         return value;
     }
 
+    @Override
+    public String toString() {
+        return String.format("%d - %s", this.ordinal() + 1, this.getValue());
+    }
 }
