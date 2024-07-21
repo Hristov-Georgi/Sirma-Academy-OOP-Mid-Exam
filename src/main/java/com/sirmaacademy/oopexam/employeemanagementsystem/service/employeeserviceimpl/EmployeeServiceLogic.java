@@ -79,20 +79,15 @@ public class EmployeeServiceLogic implements EmployeeService {
     }
 
     @Override
-    public void fire(int id) {
-        try {
+    public void fire(int id) throws NoSuchElementException{
             Employee employee = this.employeeRepository.findById(id);
             employee.setStatus(Status.FIRED);
             this.employeeRepository.modifyDetails(id, employee);
-        } catch (NoSuchElementException ex) {
-            System.out.println(ex.getMessage());
-        }
-
     }
 
     @Override
     public void saveAll() {
-        //TODO: implement method
+        this.employeeRepository.persistToFile();
     }
 
     private int ensureIdUniqueness() {

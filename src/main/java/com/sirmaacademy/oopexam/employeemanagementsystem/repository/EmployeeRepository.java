@@ -113,9 +113,13 @@ public class EmployeeRepository {
     public void persistToFile() {
 
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(EMPLOYEES_CSV_FILE))) {
-            bufferedWriter.write(this.employeeList.toString());
+
+            for (Employee e : this.employeeList) {
+                bufferedWriter.write(e.toString());
+                bufferedWriter.newLine();
+            }
+
         } catch (IOException ex) {
-            //TODO: is it correct ? or should throw exception ?
             System.out.println(ex.getMessage());
         }
 
