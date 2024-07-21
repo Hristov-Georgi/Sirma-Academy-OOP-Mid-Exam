@@ -61,10 +61,7 @@ public abstract class ConsoleRunner {
                         Role role = ValidateInputData.validateRole(reader);
                         double salary = ValidateInputData.validateSalary(reader);
 
-                        Employee employee = new Employee(firstName, lastName,
-                                department, role, salary);
-
-                        EMPLOYEE_SERVICE.add(employee);
+                        EMPLOYEE_SERVICE.add(firstName, lastName, department, role, salary);
                         //TODO: return boolean and print if the command is successful ??
 
 //TODO: enums validation and explanation how to be entered. May print list of enums ?
@@ -91,9 +88,9 @@ public abstract class ConsoleRunner {
                     default:
                         return;
                 }
-
-                input = reader.readLine();
                 System.out.println("Enter new command:");
+                input = reader.readLine();
+
             }
 
         } catch (IOException ex) {

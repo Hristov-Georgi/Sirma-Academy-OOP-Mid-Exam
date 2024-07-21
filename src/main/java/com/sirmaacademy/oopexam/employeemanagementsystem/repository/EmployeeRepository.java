@@ -16,7 +16,7 @@ public class EmployeeRepository {
 
     private static final String EMPLOYEES_CSV_FILE = "src/main/resources/employeerepository/employees_data.csv";
 
-    private List<Employee> employeeList;
+    private List<Employee> employeeList = new ArrayList<>();
 
     private EmployeeRepository(){
         this.employeeList = loadEmployees();
@@ -24,6 +24,14 @@ public class EmployeeRepository {
 
     public static EmployeeRepository getInstance() {
         return OBJECT_INSTANCE;
+    }
+
+    public List<Employee> getEmployeeList() {
+        return employeeList;
+    }
+
+    public void add(Employee employee) {
+        this.employeeList.add(employee);
     }
 
     public List<Employee> findAllByFirstName(String firstName) {
@@ -133,15 +141,17 @@ public class EmployeeRepository {
 
                 Employee employee = new Employee(id, firstName, lastName, department, role, salary, status);
                 employees.add(employee);
+
+                this.employeeList.add(employee);
+
+                input = bufferedReader.readLine();
             }
 
         } catch (IOException e) {
             //TODO: is it correct ? or should throw exception ?
             System.out.println(e.getMessage());
         }
-
         return employees;
-
     }
 
 }

@@ -7,7 +7,6 @@ import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Status;
 import java.math.BigDecimal;
 
 public class Employee {
-    private static int INITIAL_ID = 1;
 
     private int id;
     private String firstName;          // TODO: add full name ??
@@ -22,15 +21,14 @@ public class Employee {
      * ID is auto set which creates uniqueness.
      * Status is auto set to ACTIVE when new employee is added.
      */
-    public Employee(String firstName, String lastName, Department department, Role role, double salary) {
-        this.id = INITIAL_ID;
+    public Employee(int id, String firstName, String lastName, Department department, Role role, double salary) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.department = department;
         this.role = role;
         this.salary = BigDecimal.valueOf(salary);
         this.status = Status.ACTIVE;
-        INITIAL_ID++;
     }
 
     /**

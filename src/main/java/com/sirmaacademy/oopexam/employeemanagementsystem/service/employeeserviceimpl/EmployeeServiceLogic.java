@@ -1,6 +1,8 @@
 package com.sirmaacademy.oopexam.employeemanagementsystem.service.employeeserviceimpl;
 
 import com.sirmaacademy.oopexam.employeemanagementsystem.entity.Employee;
+import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Department;
+import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Role;
 import com.sirmaacademy.oopexam.employeemanagementsystem.repository.EmployeeRepository;
 import com.sirmaacademy.oopexam.employeemanagementsystem.service.EmployeeService;
 
@@ -8,6 +10,7 @@ import java.util.List;
 
 public class EmployeeServiceLogic implements EmployeeService {
     private static final EmployeeServiceLogic OBJECT_INSTANCE = new EmployeeServiceLogic();
+    private static final int INITIAL_ID_VALUE = 1;
 
     private final EmployeeRepository employeeRepository;
 
@@ -50,8 +53,10 @@ public class EmployeeServiceLogic implements EmployeeService {
     }
 
     @Override
-    public void add(Employee employee) {
-
+    public void add(String firstName, String lastName, Department department, Role role, double salary) {
+        int id = ensureIdUniqueness();
+        Employee employee = new Employee(id, firstName, lastName, department, role, salary);
+        this.employeeRepository.add(employee);
     }
 
     @Override
@@ -65,12 +70,17 @@ public class EmployeeServiceLogic implements EmployeeService {
     }
 
     @Override
-    public void saveAllActive() {
+    public void saveAll() {
 
     }
 
-    @Override
-    public void saveAllFired() {
+    private int ensureIdUniqueness() {
+        List<Employee> employeeList = this.employeeRepository.getEmployeeList();
 
+        if (employeeList.isEmpty()) {
+            return INITIAL_ID_VALUE;
+        }
+        return employeeList.getLast().getId() + 1;
     }
+
 }
