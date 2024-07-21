@@ -1,5 +1,6 @@
 package com.sirmaacademy.oopexam.employeemanagementsystem;
 
+import com.sirmaacademy.oopexam.employeemanagementsystem.entity.Employee;
 import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Department;
 import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Role;
 import com.sirmaacademy.oopexam.employeemanagementsystem.service.EmployeeService;
@@ -9,6 +10,8 @@ import com.sirmaacademy.oopexam.employeemanagementsystem.validation.ValidateInpu
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 public abstract class ConsoleRunner {
 
@@ -68,7 +71,7 @@ public abstract class ConsoleRunner {
                         break;
 
                     case 2:
-                        System.out.println("Enter employee id:");
+                        printEnterId();
                         String inputId = reader.readLine();
 
                         try {
@@ -88,14 +91,16 @@ public abstract class ConsoleRunner {
                         break;
 
                     case 3:
-                        System.out.println("Enter employee id:");
+                        printEnterId();
                         String employeeId = reader.readLine();
 
                         try {
                             int id = Integer.parseInt(employeeId);
                             EMPLOYEE_SERVICE.fire(id);
+                        } catch (NumberFormatException ex) {
+                            System.out.println("Enter valid integer.");
                         } catch (NullPointerException ex) {
-                            System.out.println("Invalid id number: " + employeeId + ". Enter valid integer.");
+                            System.out.println("Invalid id number: " + employeeId);
                         }
                         break;
 
@@ -106,13 +111,49 @@ public abstract class ConsoleRunner {
                         break;
 
                     case 5:
+                        printEnterId();
+                        String id = reader.readLine();
+
+                        try {
+                            int idNum = Integer.parseInt(id);
+                            Employee employeeById = EMPLOYEE_SERVICE.findById(idNum);
+                            System.out.println(employeeById);
+                        } catch (NumberFormatException ex) {
+                            System.out.println("Enter valid integer.");
+                        } catch (NoSuchElementException ex) {
+                            System.out.println(ex.getMessage());
+                        }
                         break;
+
                     case 6:
+                        System.out.println("Enter employee first name:");
+                        String searchedFirstName = ValidateInputData.validateName(reader);
+                        List<Employee> employeeByFirstName = EMPLOYEE_SERVICE.findAllByFirstName(searchedFirstName);
+
+                        if (!employeeByFirstName.isEmpty()) {
+                            printListData(employeeByFirstName);
+                        } else {
+                            System.out.println("Company does not have employees with first name " + searchedFirstName);
+                        }
+
                         break;
+
                     case 7:
+                        System.out.println("Enter employee last name:");
+                        String searchedLastName = ValidateInputData.validateName(reader);
+                        List<Employee> employeeByLastName = EMPLOYEE_SERVICE.findAllByLastName(searchedLastName);
+
+                        if (!employeeByLastName.isEmpty()) {
+                            printListData(employeeByLastName);
+                        } else {
+                            System.out.println("Company does not have employees with last name " + searchedLastName);
+                        }
                         break;
+
                     case 8:
+
                         break;
+
                     case 9:
                         break;
                     case 10:
@@ -127,6 +168,17 @@ public abstract class ConsoleRunner {
 
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
+        }
+
+    }
+
+    private static void printEnterId() {
+        System.out.println("Enter employee id:");
+    }
+
+    private static <T> void printListData(List<T> listData) {
+        for (T e : listData) {
+            System.out.println(e.toString());
         }
 
     }
