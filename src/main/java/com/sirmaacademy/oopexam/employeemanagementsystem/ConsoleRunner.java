@@ -16,7 +16,7 @@ import java.util.NoSuchElementException;
 
 public abstract class ConsoleRunner {
 
-    private static EmployeeService EMPLOYEE_SERVICE = EmployeeServiceLogic.getInstance();
+    private static final EmployeeService EMPLOYEE_SERVICE = EmployeeServiceLogic.getInstance();
 
     public static void welcomeMessage() {
         System.out.println("Welcome to Employee Management System");
@@ -27,7 +27,6 @@ public abstract class ConsoleRunner {
     public static void printMenu() {
         System.out.println("Employee Management Menu");
         System.out.println();
-        System.out.println("Type one of the following Integers to execute desired command:");
         System.out.println("1 - Add new employee");
         System.out.println("2 - Edit employee");
         System.out.println("3 - Fire employee");
@@ -39,6 +38,7 @@ public abstract class ConsoleRunner {
         System.out.println("9 - Display all active employees (not fired (discharged))");
         System.out.println("10 - Exit and save all data from Employee Management System");
         System.out.println();
+        System.out.println("Enter from Integers above to execute desired command:");
     }
 
     public static void readCommands() {
@@ -58,18 +58,35 @@ public abstract class ConsoleRunner {
 
                 switch (Integer.parseInt(input)) {
                     case 1:
-                        System.out.println("Enter employee first name:");
-                        String firstName = ValidateInputData.validateName(reader);
-                        System.out.println("Enter employee last name:");
-                        String lastName = ValidateInputData.validateName(reader);
-                        Department department = ValidateInputData.validateDepartment(reader);
-                        Role role = ValidateInputData.validateRole(reader);
-                        double salary = ValidateInputData.validateSalary(reader);
 
-                        EMPLOYEE_SERVICE.add(firstName, lastName, department, role, salary);
-                        //TODO: return boolean and print if the command is successful ??
+                        try {
+                            printEnterFirstName();
+                            String firstName = reader.readLine();
+                            ValidateInputData.validateName(firstName);
 
-//TODO: enums validation and explanation how to be entered. May print list of enums ?
+                            printEnterLastName();
+                            String lastName = reader.readLine();
+                            ValidateInputData.validateName(lastName);
+
+                            printEnterDepartment();
+                            String inputDepartment = reader.readLine();
+                            Department department = ValidateInputData.validateDepartment(inputDepartment);
+
+                            printEnterRole();
+                            String inputRole = reader.readLine();
+                            Role role = ValidateInputData.validateRole(inputRole);
+
+                            printEnterSalary();
+                            String inputSalary = reader.readLine();
+                            double salary = ValidateInputData.validateSalary(inputSalary);
+
+                            EMPLOYEE_SERVICE.add(firstName, lastName, department, role, salary);
+                        } catch (InvalidObjectException | IllegalArgumentException ex) {
+                            System.out.println(ex.getMessage());
+                        }
+
+                        //TODO: return employee and print if the command is successful ??
+                        //TODO: enums validation and explanation how to be entered. May print list of enums ?
                         break;
 
                     case 2:
@@ -78,17 +95,32 @@ public abstract class ConsoleRunner {
 
                         try {
                             int id = Integer.parseInt(inputId);
-                            System.out.println("Enter employee first name:");
-                            String editFirstName = ValidateInputData.validateName(reader);
-                            System.out.println("Enter employee last name:");
-                            String editLastName = ValidateInputData.validateName(reader);
-                            Department editDepartment = ValidateInputData.validateDepartment(reader);
-                            Role editRole = ValidateInputData.validateRole(reader);
-                            double editSalary = ValidateInputData.validateSalary(reader);
 
-                            EMPLOYEE_SERVICE.edit(id, editFirstName, editLastName, editDepartment, editRole, editSalary);
+                            printEnterFirstName();
+                            String editFirstName = reader.readLine();
+                            ValidateInputData.validateName(editFirstName);
+
+                            printEnterLastName();
+                            String editLastName = reader.readLine();
+                            ValidateInputData.validateName(editLastName);
+
+                            printEnterDepartment();
+                            String inputDepartment = reader.readLine();
+                            Department editDepartment = ValidateInputData.validateDepartment(inputDepartment);
+
+                            printEnterRole();
+                            String inputRole = reader.readLine();
+                            Role role = ValidateInputData.validateRole(inputRole);
+
+                            printEnterSalary();
+                            String inputSalary = reader.readLine();
+                            double editSalary = ValidateInputData.validateSalary(inputSalary);
+
+                            EMPLOYEE_SERVICE.edit(id, editFirstName, editLastName, editDepartment, role, editSalary);
                         } catch (NullPointerException ex) {
                             System.out.println("Invalid id number: " + inputId + ". Enter valid integer.");
+                        } catch (InvalidObjectException | IllegalArgumentException ex) {
+                            System.out.println(ex.getMessage());
                         }
                         break;
 
@@ -103,13 +135,22 @@ public abstract class ConsoleRunner {
                             System.out.println("Enter valid integer.");
                         } catch (NullPointerException ex) {
                             System.out.println("Invalid id number: " + employeeId);
+                        } catch (NoSuchElementException exception) {
+                            System.out.println(exception.getMessage());
                         }
                         break;
 
                     case 4:
-                        System.out.println("Enter Department name:");
-                        Department dep = ValidateInputData.validateDepartment(reader);
-                        EMPLOYEE_SERVICE.findAllByDepartment(dep);
+                        printEnterDepartment();
+                        String depName = reader.readLine();
+                        Department dep = ValidateInputData.validateDepartment(depName);
+                        List<Employee> employeesByDepartment = EMPLOYEE_SERVICE.findAllByDepartment(dep);
+
+                        if (!employeesByDepartment.isEmpty()) {
+                            printListData(employeesByDepartment);
+                        } else {
+                            System.out.println("There are no employees working in " + dep.getValue() + " department");
+                        }
                         break;
 
                     case 5:
@@ -128,28 +169,33 @@ public abstract class ConsoleRunner {
                         break;
 
                     case 6:
-                        System.out.println("Enter employee first name:");
-                        String searchedFirstName = ValidateInputData.validateName(reader);
+                        printEnterFirstName();
+                        String searchedFirstName = reader.readLine();
+                        ValidateInputData.validateName(searchedFirstName);
+
                         List<Employee> employeeByFirstName = EMPLOYEE_SERVICE
                                 .findAllByFirstName(searchedFirstName);
 
                         if (!employeeByFirstName.isEmpty()) {
                             printListData(employeeByFirstName);
                         } else {
-                            System.out.println("Company does not have employees with first name " + searchedFirstName);
+                            System.out.println("Company does not have employees with first name "
+                                    + searchedFirstName);
                         }
-
                         break;
 
                     case 7:
-                        System.out.println("Enter employee last name:");
-                        String searchedLastName = ValidateInputData.validateName(reader);
+                        printEnterLastName();
+                        String searchedLastName = reader.readLine();
+                        ValidateInputData.validateName(searchedLastName);
+
                         List<Employee> employeeByLastName = EMPLOYEE_SERVICE.findAllByLastName(searchedLastName);
 
                         if (!employeeByLastName.isEmpty()) {
                             printListData(employeeByLastName);
                         } else {
-                            System.out.println("Company does not have employees with last name " + searchedLastName);
+                            System.out.println("Company does not have employees with last name "
+                                    + searchedLastName);
                         }
                         break;
 
@@ -160,12 +206,13 @@ public abstract class ConsoleRunner {
                         String lName = names.split("\\s+")[1];
 
                         try {
-                            ValidateInputData.validateNames(fName);
-                            ValidateInputData.validateNames(lName);
+                            ValidateInputData.validateName(fName);
+                            ValidateInputData.validateName(lName);
+
                             List<Employee> employeesByFAndLNames = EMPLOYEE_SERVICE
                                     .findByFirstAndLastNames(fName, lName);
 
-                            if (employeesByFAndLNames.isEmpty()) {
+                            if (!employeesByFAndLNames.isEmpty()) {
                                 printListData(employeesByFAndLNames);
                             } else {
                                 System.out.printf("Employees with first name %s and last name %s were not found.%n",
@@ -203,6 +250,26 @@ public abstract class ConsoleRunner {
 
     private static void printEnterId() {
         System.out.println("Enter employee id:");
+    }
+
+    private static void printEnterFirstName() {
+        System.out.println("Enter employee first name:");
+    }
+
+    private static void printEnterLastName() {
+        System.out.println("Enter employee last name:");
+    }
+
+    private static void printEnterDepartment() {
+        System.out.println("Enter Department name:");
+    }
+
+    private static void printEnterRole() {
+        System.out.println("Enter Role name:");
+    }
+
+    private static void printEnterSalary() {
+        System.out.println("Enter salary:");
     }
 
     private static <T> void printListData(List<T> listData) {
