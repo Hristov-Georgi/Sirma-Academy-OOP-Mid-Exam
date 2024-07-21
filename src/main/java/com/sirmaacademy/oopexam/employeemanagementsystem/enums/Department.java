@@ -1,6 +1,9 @@
 package com.sirmaacademy.oopexam.employeemanagementsystem.enums;
 
-
+/**
+ * This enumeration consist of main departments in the company.
+ * If necessary can be added new departments.
+ */
 public enum Department {
 
     IT("IT"),

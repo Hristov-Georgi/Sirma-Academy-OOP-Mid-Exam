@@ -9,6 +9,9 @@ import java.io.InvalidObjectException;
 public abstract class ValidateInputData {
     private static final double MINIMAL_SALARY = 933;
 
+    /**
+     * Validate salary is a double number and not less than minimal salary for the country
+     */
     public static double validateSalary(String salary) throws NumberFormatException {
 
         double remuneration = Double.parseDouble(salary);
@@ -18,6 +21,9 @@ public abstract class ValidateInputData {
         return remuneration;
     }
 
+    /**
+     * Validate that entered role present in the company.
+     */
     public static Role validateRole(String role) throws IOException {
         Role[] values = Role.values();
 
@@ -31,6 +37,9 @@ public abstract class ValidateInputData {
         throw new IllegalArgumentException("Role \"" + role + "\" does not exist.");
     }
 
+    /**
+     * Validate that entered department present in the company.
+     */
     public static Department validateDepartment(String department) throws IOException {
 
         Department[] values = Department.values();
@@ -45,6 +54,9 @@ public abstract class ValidateInputData {
         throw new IllegalArgumentException("Department \"" + department + "\" does not exist.");
     }
 
+    /**
+     * Validate name length and name characters are only letters from english alphabet.
+     */
     public static String validateName(String name) throws IOException {
 
         if (name.isBlank() || name.length() < 2) {

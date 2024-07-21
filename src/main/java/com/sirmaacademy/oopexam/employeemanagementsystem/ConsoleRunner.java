@@ -14,10 +14,16 @@ import java.io.InvalidObjectException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * Handles all input data and print result from selected command.
+ */
 public abstract class ConsoleRunner {
 
     private static final EmployeeService EMPLOYEE_SERVICE = EmployeeServiceLogic.getInstance();
 
+    /**
+     * Print welcome message when program start.
+     */
     public static void welcomeMessage() {
         System.out.println();
         System.out.println("Welcome to Employee Management System");
@@ -25,6 +31,9 @@ public abstract class ConsoleRunner {
 
     }
 
+    /**
+     * Print program Menu.
+     */
     public static void printMenu() {
         System.out.println("Menu:");
         System.out.println();
@@ -42,7 +51,11 @@ public abstract class ConsoleRunner {
         System.out.println("12 - Exit and save all data from Employee Management System");
     }
 
+    /**
+     * Read commands and calls executable methods.
+     */
     public static void readCommands() {
+
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             boolean readData = true;
@@ -52,6 +65,9 @@ public abstract class ConsoleRunner {
                 System.out.println("Enter new integer command from the Menu:");
                 String input = reader.readLine();
 
+                /**
+                 * Check if the input command is correct.
+                 */
                 try {
                     int n = Integer.parseInt(input);
                 } catch (NumberFormatException ex) {
@@ -60,8 +76,8 @@ public abstract class ConsoleRunner {
                 }
 
                 switch (Integer.parseInt(input)) {
-                    case 1:
 
+                    case 1:
                         try {
                             printEnterFirstName();
                             String firstName = reader.readLine();
@@ -87,9 +103,6 @@ public abstract class ConsoleRunner {
                         } catch (InvalidObjectException | IllegalArgumentException ex) {
                             System.out.println(ex.getMessage());
                         }
-
-                        //TODO: return employee and print if the command is successful ??
-                        //TODO: enums validation and explanation how to be entered. May print list of enums ?
                         break;
 
                     case 2:
@@ -285,6 +298,9 @@ public abstract class ConsoleRunner {
         System.out.println("Enter salary:");
     }
 
+    /**
+     * Print all values from a given List.
+     */
     private static <T> void printListData(List<T> listData) {
         for (T e : listData) {
             System.out.println(e.toString());
@@ -292,6 +308,9 @@ public abstract class ConsoleRunner {
 
     }
 
+    /**
+     * Print all values from a given enumeration.
+     */
     private static<T> void printEnumsData(T[] enumArr) {
 
         for (T e : enumArr) {

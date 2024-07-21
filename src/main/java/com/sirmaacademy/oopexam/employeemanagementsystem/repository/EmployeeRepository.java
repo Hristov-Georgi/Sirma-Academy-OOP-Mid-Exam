@@ -11,11 +11,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * This class handles operations with file - load data from file and
+ * at the end of program - save modified data to file.
+ */
 public class EmployeeRepository {
+
+    /**
+     * Create single class instance using Singleton pattern.
+     */
     private static final EmployeeRepository OBJECT_INSTANCE = new EmployeeRepository();
 
+    /**
+     * Path to the csv file where data is saved and loaded.
+     */
     private static final String EMPLOYEES_CSV_FILE = "src/main/resources/employeerepository/employees_data.csv";
 
+    /**
+     * Store employees while program is running.
+     */
     private List<Employee> employeeList = new ArrayList<>();
 
     private EmployeeRepository(){
@@ -25,6 +39,9 @@ public class EmployeeRepository {
 
     }
 
+    /**
+     * Return single instance for current class.
+     */
     public static EmployeeRepository getInstance() {
         return OBJECT_INSTANCE;
     }
@@ -33,10 +50,16 @@ public class EmployeeRepository {
         return employeeList;
     }
 
+    /**
+     * Add new employee to storage List while program running.
+     */
     public void add(Employee employee) {
         this.employeeList.add(employee);
     }
 
+    /**
+     * Return List of employees which first name is equal to searched(required) name.
+     */
     public List<Employee> findAllByFirstName(String firstName) {
         List<Employee> employees = new ArrayList<>();
 
@@ -50,6 +73,9 @@ public class EmployeeRepository {
         return employees;
     }
 
+    /**
+     * Return List of employees which last name is equal to searched(required) name.
+     */
     public List<Employee> findAllByLastName(String lastName) {
         List<Employee> employees = new ArrayList<>();
 
@@ -63,6 +89,9 @@ public class EmployeeRepository {
         return employees;
     }
 
+    /**
+     * Return List of employees which first and last names are equal to searched(required) names.
+     */
     public List<Employee> findByFirstAndLastNames(String firstName, String lastName) {
         List<Employee> employees = new ArrayList<>();
 
@@ -76,6 +105,10 @@ public class EmployeeRepository {
         return employees;
     }
 
+    /**
+     * Return Employee if it's id matches to searched(required) id.
+     * Throws NoSuchElementException if id not found.
+     */
     public Employee findById(int id) {
         for (Employee e : employeeList) {
 
@@ -87,6 +120,10 @@ public class EmployeeRepository {
         throw new NoSuchElementException("Employee with id: " + id + " not found.");
     }
 
+    /**
+     * Return List of all employees which department matches to searched(required) department.
+     * If no employees in the department empty List is returned.
+     */
     public List<Employee> findAllByDepartment(Department department) {
         List<Employee> employees = new ArrayList<>();
 
@@ -100,6 +137,10 @@ public class EmployeeRepository {
         return employees;
     }
 
+    /**
+     * Return List of all Active employees currently working for the company.
+     * If no Active employees empty List is returned.
+     */
     public List<Employee> getAllActive() {
         List<Employee> employees = new ArrayList<>();
 
@@ -113,6 +154,9 @@ public class EmployeeRepository {
         return employees;
     }
 
+    /**
+     * Save all employees data in csv file upon exit the program.
+     */
     public void persistToFile() {
 
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(EMPLOYEES_CSV_FILE))) {
@@ -128,11 +172,17 @@ public class EmployeeRepository {
 
     }
 
+    /**
+     * Save employee which details were modified.
+     */
     public void modifyDetails(int id, Employee employee) {
         this.employeeList.remove(id - 1);
         this.employeeList.add(id - 1, employee);
     }
 
+    /**
+     * Load all stored employees from csv file when program start.
+     */
     private List<Employee> loadEmployees() {
         List<Employee> employees = new ArrayList<>();
 

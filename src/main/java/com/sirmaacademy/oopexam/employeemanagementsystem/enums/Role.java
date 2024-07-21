@@ -1,5 +1,9 @@
 package com.sirmaacademy.oopexam.employeemanagementsystem.enums;
 
+/**
+ * This enumeration consist of main roles in the company.
+ * If necessary can be added new roles.
+ */
 public enum Role {
 
     JUNIOR_JAVA_DEVELOPER ("Junior Java Developer"),

@@ -6,10 +6,13 @@ import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Status;
 
 import java.math.BigDecimal;
 
+/**
+ * Used to create employees.
+ */
 public class Employee {
 
     private int id;
-    private String firstName;          // TODO: add full name ??
+    private String firstName;
     private String lastName;
     private Department department;
     private Role role;
@@ -97,6 +100,10 @@ public class Employee {
         this.salary = BigDecimal.valueOf(salary);
     }
 
+    /**
+     * Format is compatible with .csv file format.
+     * Method is used to properly save the data in .csv file before program finish execution;
+     */
     public String persistToFilePattern() {
         return String.format("%d, %s, %s, %s, %s, %s, %s",
                 this.id, this.firstName, this.lastName, this.department.name(),
@@ -104,9 +111,7 @@ public class Employee {
     }
 
     /**
-     * Format is compatible with .csv file format.
-     * Method is used to properly save the data in .csv file before program finish execution;
-     * @return
+     * Method is used to display employee data when required.
      */
     @Override
     public String toString() {
