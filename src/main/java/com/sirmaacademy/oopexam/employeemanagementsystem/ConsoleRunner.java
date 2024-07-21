@@ -19,16 +19,17 @@ public abstract class ConsoleRunner {
     private static final EmployeeService EMPLOYEE_SERVICE = EmployeeServiceLogic.getInstance();
 
     public static void welcomeMessage() {
+        System.out.println();
         System.out.println("Welcome to Employee Management System");
         System.out.println();
-        System.out.println();
+
     }
 
     public static void printMenu() {
-        System.out.println("Employee Management Menu");
+        System.out.println("Menu:");
         System.out.println();
         System.out.println("1 - Add new employee");
-        System.out.println("2 - Edit employee");
+        System.out.println("2 - Edit employee - modify existing employee details");
         System.out.println("3 - Fire employee");
         System.out.println("4 - Search by department");
         System.out.println("5 - Search by ID");
@@ -38,16 +39,17 @@ public abstract class ConsoleRunner {
         System.out.println("9 - Display all active employees (not fired (discharged))");
         System.out.println("10 - Exit and save all data from Employee Management System");
         System.out.println();
-        System.out.println("Enter from Integers above to execute desired command:");
     }
 
     public static void readCommands() {
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-            String input = reader.readLine();
             boolean readData = true;
 
             while (readData) {
+                System.out.println();
+                System.out.println("Enter new command from the Menu:");
+                String input = reader.readLine();
 
                 try {
                     int n = Integer.parseInt(input);
@@ -237,8 +239,6 @@ public abstract class ConsoleRunner {
                     default:
                         return;
                 }
-                System.out.println("Enter new command:");
-                input = reader.readLine();
 
             }
 
