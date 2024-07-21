@@ -16,10 +16,15 @@ public class EmployeeRepository {
 
     private static final String EMPLOYEES_CSV_FILE = "src/main/resources/employeerepository/employees_data.csv";
 
-    private List<Employee> employeeList = new ArrayList<>();
+    private List<Employee> employeeList;
 
     private EmployeeRepository(){
-        this.employeeList = loadEmployees();
+        if (loadEmployees().isEmpty()) {
+            this.employeeList = new ArrayList<>();
+        } else {
+            this.employeeList = loadEmployees();
+        }
+
     }
 
     public static EmployeeRepository getInstance() {
@@ -81,7 +86,7 @@ public class EmployeeRepository {
             }
 
         }
-        throw new NoSuchElementException("Employee with " + id + " not found.");
+        throw new NoSuchElementException("Employee with id: " + id + " not found.");
     }
 
     public List<Employee> findAllByDepartment(Department department) {
