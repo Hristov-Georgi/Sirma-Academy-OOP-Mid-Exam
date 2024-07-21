@@ -44,7 +44,7 @@ public class EmployeeRepository {
 
         for (Employee e : employeeList) {
 
-            if (e.getFirstName().equals(firstName)){
+            if (e.getFirstName().equalsIgnoreCase(firstName)){
                 employees.add(e);
             }
 
@@ -57,7 +57,7 @@ public class EmployeeRepository {
 
         for (Employee e : employeeList) {
 
-            if (e.getLastName().equals(lastName)){
+            if (e.getLastName().equalsIgnoreCase(lastName)){
                 employees.add(e);
             }
 
@@ -70,7 +70,7 @@ public class EmployeeRepository {
 
         for (Employee e : employeeList) {
 
-            if (e.getFirstName().equals(firstName) && e.getLastName().equals(lastName)){
+            if (e.getFirstName().equalsIgnoreCase(firstName) && e.getLastName().equalsIgnoreCase(lastName)){
                 employees.add(e);
             }
 
