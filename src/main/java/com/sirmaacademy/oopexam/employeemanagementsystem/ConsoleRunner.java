@@ -82,15 +82,24 @@ public abstract class ConsoleRunner {
                             double editSalary = ValidateInputData.validateSalary(reader);
 
                             EMPLOYEE_SERVICE.edit(id, editFirstName, editLastName, editDepartment, editRole, editSalary);
-
                         } catch (NullPointerException ex) {
                             System.out.println("Invalid id number: " + inputId + ". Enter valid integer.");
+                        }
+                        break;
+
+                    case 3:
+                        System.out.println("Enter employee id:");
+                        String employeeId = reader.readLine();
+
+                        try {
+                            int id = Integer.parseInt(employeeId);
+                            EMPLOYEE_SERVICE.fire(id);
+                        } catch (NullPointerException ex) {
+                            System.out.println("Invalid id number: " + employeeId + ". Enter valid integer.");
                         }
 
                         break;
 
-                    case 3:
-                        break;
                     case 4:
                         break;
                     case 5:

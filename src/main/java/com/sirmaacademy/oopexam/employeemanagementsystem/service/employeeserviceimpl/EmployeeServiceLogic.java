@@ -3,6 +3,7 @@ package com.sirmaacademy.oopexam.employeemanagementsystem.service.employeeservic
 import com.sirmaacademy.oopexam.employeemanagementsystem.entity.Employee;
 import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Department;
 import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Role;
+import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Status;
 import com.sirmaacademy.oopexam.employeemanagementsystem.repository.EmployeeRepository;
 import com.sirmaacademy.oopexam.employeemanagementsystem.service.EmployeeService;
 
@@ -70,7 +71,7 @@ public class EmployeeServiceLogic implements EmployeeService {
             employee.setDepartment(department);
             employee.setRole(role);
             employee.setSalary(salary);
-            this.employeeRepository.edit(id, employee);
+            this.employeeRepository.modifyDetails(id, employee);
         } catch (NoSuchElementException ex) {
             System.out.println(ex.getMessage());
         }
@@ -78,13 +79,20 @@ public class EmployeeServiceLogic implements EmployeeService {
     }
 
     @Override
-    public void fire() {
+    public void fire(int id) {
+        try {
+            Employee employee = this.employeeRepository.findById(id);
+            employee.setStatus(Status.FIRED);
+            this.employeeRepository.modifyDetails(id, employee);
+        } catch (NoSuchElementException ex) {
+            System.out.println(ex.getMessage());
+        }
 
     }
 
     @Override
     public void saveAll() {
-
+        //TODO: implement method
     }
 
     private int ensureIdUniqueness() {

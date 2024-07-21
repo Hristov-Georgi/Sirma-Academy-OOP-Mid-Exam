@@ -16,7 +16,7 @@ public interface EmployeeService {
     List<Employee> getAllActive();
     void add(String firstName, String lastName, Department department, Role role, double salary);
     void edit(int id, String firstName, String lastName, Department department, Role role, double salary); // TODO: Modify existing employee details - which details.
-    void fire();
+    void fire(int id);
     void saveAll();
 
 }

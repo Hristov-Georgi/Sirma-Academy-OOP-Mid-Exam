@@ -121,7 +121,7 @@ public class EmployeeRepository {
 
     }
 
-    public void edit(int id, Employee employee) {
+    public void modifyDetails(int id, Employee employee) {
         this.employeeList.remove(id);
         this.employeeList.add(id, employee);
     }
