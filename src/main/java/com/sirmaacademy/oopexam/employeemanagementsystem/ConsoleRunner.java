@@ -10,6 +10,7 @@ import com.sirmaacademy.oopexam.employeemanagementsystem.validation.ValidateInpu
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.InvalidObjectException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -128,7 +129,8 @@ public abstract class ConsoleRunner {
                     case 6:
                         System.out.println("Enter employee first name:");
                         String searchedFirstName = ValidateInputData.validateName(reader);
-                        List<Employee> employeeByFirstName = EMPLOYEE_SERVICE.findAllByFirstName(searchedFirstName);
+                        List<Employee> employeeByFirstName = EMPLOYEE_SERVICE
+                                .findAllByFirstName(searchedFirstName);
 
                         if (!employeeByFirstName.isEmpty()) {
                             printListData(employeeByFirstName);
@@ -151,11 +153,33 @@ public abstract class ConsoleRunner {
                         break;
 
                     case 8:
+                        System.out.println("Enter employee first and last name, separated by empty space. (Example: Ivan Ivanov):");
+                        String names = reader.readLine();
+                        String fName = names.split("\\s+")[0];
+                        String lName = names.split("\\s+")[1];
 
+                        try {
+                            ValidateInputData.validateNames(fName);
+                            ValidateInputData.validateNames(lName);
+                            List<Employee> employeesByFAndLNames = EMPLOYEE_SERVICE
+                                    .findByFirstAndLastNames(fName, lName);
+
+                            if (employeesByFAndLNames.isEmpty()) {
+                                printListData(employeesByFAndLNames);
+                            } else {
+                                System.out.printf("Employees with first name %s and last name %s were not found.%n",
+                                        fName, lName);
+                            }
+
+                        } catch (IllegalArgumentException | InvalidObjectException ex) {
+                            System.out.println(ex.getMessage());
+                        }
                         break;
 
                     case 9:
+
                         break;
+
                     case 10:
                         break;
                     default:

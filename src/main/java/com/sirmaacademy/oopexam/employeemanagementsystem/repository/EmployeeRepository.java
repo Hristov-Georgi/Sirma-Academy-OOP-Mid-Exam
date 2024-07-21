@@ -60,7 +60,7 @@ public class EmployeeRepository {
         return employees;
     }
 
-    public List<Employee> findByFullName(String firstName, String lastName) {
+    public List<Employee> findByFirstAndLastNames(String firstName, String lastName) {
         List<Employee> employees = new ArrayList<>();
 
         for (Employee e : employeeList) {
