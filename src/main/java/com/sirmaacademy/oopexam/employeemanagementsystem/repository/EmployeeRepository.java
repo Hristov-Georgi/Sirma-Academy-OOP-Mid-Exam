@@ -16,12 +16,10 @@ public class EmployeeRepository {
 
     private static final String EMPLOYEES_CSV_FILE = "src/main/resources/employeerepository/employees_data.csv";
 
-    private List<Employee> employeeList;
+    private List<Employee> employeeList = new ArrayList<>();
 
     private EmployeeRepository(){
-        if (loadEmployees().isEmpty()) {
-            this.employeeList = new ArrayList<>();
-        } else {
+        if (!loadEmployees().isEmpty()) {
             this.employeeList = loadEmployees();
         }
 
@@ -120,7 +118,7 @@ public class EmployeeRepository {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(EMPLOYEES_CSV_FILE))) {
 
             for (Employee e : this.employeeList) {
-                bufferedWriter.write(e.toString());
+                bufferedWriter.write(e.persistToFilePattern());
                 bufferedWriter.newLine();
             }
 

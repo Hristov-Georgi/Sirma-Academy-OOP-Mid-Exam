@@ -17,8 +17,8 @@ public class Employee {
     private Status status;
 
     /**
-     * Use this constructor only when creating new Employee.
-     * ID is auto set which creates uniqueness.
+     * Use this constructor only when create new Employee.
+     * ID is auto set in the service which creates uniqueness.
      * Status is auto set to ACTIVE when new employee is added.
      */
     public Employee(int id, String firstName, String lastName, Department department, Role role, double salary) {
@@ -95,6 +95,12 @@ public class Employee {
 
     public void setSalary(double salary) {
         this.salary = BigDecimal.valueOf(salary);
+    }
+
+    public String persistToFilePattern() {
+        return String.format("%d, %s, %s, %s, %s, %s, %s",
+                this.id, this.firstName, this.lastName, this.department.name(),
+                this.role.name(), this.salary, this.status.name());
     }
 
     /**
