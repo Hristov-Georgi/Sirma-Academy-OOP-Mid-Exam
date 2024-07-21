@@ -37,7 +37,7 @@ public abstract class ConsoleRunner {
         System.out.println("7 - Search by last name");
         System.out.println("8 - Search by first and last names");
         System.out.println("9 - Display all active employees (not fired (discharged))");
-        System.out.println("10 - Save all manipulated data and exit from Employee Management System");
+        System.out.println("10 - Exit and save all data from Employee Management System");
         System.out.println();
     }
 
@@ -45,8 +45,9 @@ public abstract class ConsoleRunner {
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             String input = reader.readLine();
+            boolean readData = true;
 
-            while (input != null) {
+            while (readData) {
 
                 try {
                     int n = Integer.parseInt(input);
@@ -182,7 +183,10 @@ public abstract class ConsoleRunner {
                         break;
 
                     case 10:
+                        EMPLOYEE_SERVICE.saveAll();
+                        readData = false;
                         break;
+
                     default:
                         return;
                 }
