@@ -45,7 +45,7 @@ public class EmployeeServiceLogic implements EmployeeService {
     }
 
     @Override
-    public List<Employee> findAllByDepartment(String department) {
+    public List<Employee> findAllByDepartment(Department department) {
         return this.employeeRepository.findAllByDepartment(department);
     }
 

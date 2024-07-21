@@ -12,7 +12,7 @@ public interface EmployeeService {
     List<Employee> findAllByLastName(String lastName);
     List<Employee> findByFullName(String firstName, String lastName);
     Employee findById(int id);
-    List<Employee> findAllByDepartment(String department);
+    List<Employee> findAllByDepartment(Department department);
     List<Employee> getAllActive();
     void add(String firstName, String lastName, Department department, Role role, double salary);
     void edit(int id, String firstName, String lastName, Department department, Role role, double salary); // TODO: Modify existing employee details - which details.

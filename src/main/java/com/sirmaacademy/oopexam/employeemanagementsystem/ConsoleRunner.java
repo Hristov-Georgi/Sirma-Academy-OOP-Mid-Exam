@@ -27,8 +27,8 @@ public abstract class ConsoleRunner {
         System.out.println("1 - Add new employee");
         System.out.println("2 - Edit employee");
         System.out.println("3 - Fire employee");
-        System.out.println("4 - Search department");
-        System.out.println("5 - Search ID");
+        System.out.println("4 - Search by department");
+        System.out.println("5 - Search by ID");
         System.out.println("6 - Search by first name");
         System.out.println("7 - Search by last name");
         System.out.println("8 - Search by first and last names");
@@ -97,11 +97,14 @@ public abstract class ConsoleRunner {
                         } catch (NullPointerException ex) {
                             System.out.println("Invalid id number: " + employeeId + ". Enter valid integer.");
                         }
-
                         break;
 
                     case 4:
+                        System.out.println("Enter Department name:");
+                        Department dep = ValidateInputData.validateDepartment(reader);
+                        EMPLOYEE_SERVICE.findAllByDepartment(dep);
                         break;
+
                     case 5:
                         break;
                     case 6:

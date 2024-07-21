@@ -84,12 +84,12 @@ public class EmployeeRepository {
         throw new NoSuchElementException("Employee with " + id + " not found.");
     }
 
-    public List<Employee> findAllByDepartment(String department) {
+    public List<Employee> findAllByDepartment(Department department) {
         List<Employee> employees = new ArrayList<>();
 
         for (Employee e : employeeList) {
 
-            if (e.getDepartment().getValue().equals(department)){
+            if (e.getDepartment().equals(department)){
                 employees.add(e);
             }
 
