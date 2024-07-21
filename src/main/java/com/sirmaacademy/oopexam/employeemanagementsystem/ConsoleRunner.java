@@ -1,8 +1,8 @@
-package com.sirmaacademy.oopexam.employeemanagementsystem.service;
+package com.sirmaacademy.oopexam.employeemanagementsystem;
 
-import com.sirmaacademy.oopexam.employeemanagementsystem.entity.Employee;
 import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Department;
 import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Role;
+import com.sirmaacademy.oopexam.employeemanagementsystem.service.EmployeeService;
 import com.sirmaacademy.oopexam.employeemanagementsystem.service.employeeserviceimpl.EmployeeServiceLogic;
 import com.sirmaacademy.oopexam.employeemanagementsystem.validation.ValidateInputData;
 
@@ -65,10 +65,30 @@ public abstract class ConsoleRunner {
                         //TODO: return boolean and print if the command is successful ??
 
 //TODO: enums validation and explanation how to be entered. May print list of enums ?
-                        //TODO: set values in methods and verify data. That will save last entered data
                         break;
+
                     case 2:
+                        System.out.println("Enter employee id:");
+                        String inputId = reader.readLine();
+
+                        try {
+                            int id = Integer.parseInt(inputId);
+                            System.out.println("Enter employee first name:");
+                            String editFirstName = ValidateInputData.validateName(reader);
+                            System.out.println("Enter employee last name:");
+                            String editLastName = ValidateInputData.validateName(reader);
+                            Department editDepartment = ValidateInputData.validateDepartment(reader);
+                            Role editRole = ValidateInputData.validateRole(reader);
+                            double editSalary = ValidateInputData.validateSalary(reader);
+
+                            EMPLOYEE_SERVICE.edit(id, editFirstName, editLastName, editDepartment, editRole, editSalary);
+
+                        } catch (NullPointerException ex) {
+                            System.out.println("Invalid id number: " + inputId + ". Enter valid integer.");
+                        }
+
                         break;
+
                     case 3:
                         break;
                     case 4:

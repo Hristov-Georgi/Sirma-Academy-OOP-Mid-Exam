@@ -7,6 +7,7 @@ import com.sirmaacademy.oopexam.employeemanagementsystem.repository.EmployeeRepo
 import com.sirmaacademy.oopexam.employeemanagementsystem.service.EmployeeService;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class EmployeeServiceLogic implements EmployeeService {
     private static final EmployeeServiceLogic OBJECT_INSTANCE = new EmployeeServiceLogic();
@@ -60,7 +61,19 @@ public class EmployeeServiceLogic implements EmployeeService {
     }
 
     @Override
-    public void edit() {
+    public void edit(int id, String firstName, String lastName, Department department, Role role, double salary) {
+
+        try {
+            Employee employee = this.employeeRepository.findById(id);
+            employee.setFirstName(firstName);
+            employee.setLastName(lastName);
+            employee.setDepartment(department);
+            employee.setRole(role);
+            employee.setSalary(salary);
+            this.employeeRepository.edit(id, employee);
+        } catch (NoSuchElementException ex) {
+            System.out.println(ex.getMessage());
+        }
 
     }
 

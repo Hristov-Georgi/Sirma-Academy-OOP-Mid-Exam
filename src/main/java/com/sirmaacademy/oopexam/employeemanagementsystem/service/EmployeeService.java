@@ -1,6 +1,8 @@
 package com.sirmaacademy.oopexam.employeemanagementsystem.service;
 
 import com.sirmaacademy.oopexam.employeemanagementsystem.entity.Employee;
+import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Department;
+import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Role;
 
 import java.util.List;
 
@@ -12,10 +14,9 @@ public interface EmployeeService {
     Employee findById(int id);
     List<Employee> findAllByDepartment(String department);
     List<Employee> getAllActive();
-    void add(Employee employee);
-    void edit(); // TODO: Modify existing employee details - which details.
+    void add(String firstName, String lastName, Department department, Role role, double salary);
+    void edit(int id, String firstName, String lastName, Department department, Role role, double salary); // TODO: Modify existing employee details - which details.
     void fire();
-    void saveAllActive();
-    void saveAllFired();
+    void saveAll();
 
 }

@@ -74,7 +74,6 @@ public class EmployeeRepository {
     }
 
     public Employee findById(int id) {
-
         for (Employee e : employeeList) {
 
             if (e.getId() == id){
@@ -120,6 +119,11 @@ public class EmployeeRepository {
             System.out.println(ex.getMessage());
         }
 
+    }
+
+    public void edit(int id, Employee employee) {
+        this.employeeList.remove(id);
+        this.employeeList.add(id, employee);
     }
 
     private List<Employee> loadEmployees() {
