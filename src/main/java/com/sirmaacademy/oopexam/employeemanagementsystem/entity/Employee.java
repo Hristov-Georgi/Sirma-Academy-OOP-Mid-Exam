@@ -12,6 +12,11 @@ import java.math.BigDecimal;
 public class Employee {
 
     private int id;
+
+    /**
+     * Decided to separate first and last names for better reading
+     * and better data handling.
+     */
     private String firstName;
     private String lastName;
     private Department department;

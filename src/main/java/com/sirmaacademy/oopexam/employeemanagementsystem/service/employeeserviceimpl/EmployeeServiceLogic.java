@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class EmployeeServiceLogic implements EmployeeService {
-    private static final EmployeeServiceLogic OBJECT_INSTANCE = new EmployeeServiceLogic();
+    private static EmployeeServiceLogic objectInstance;
     /**
      * First id value when first employee is instantiated.
      */
@@ -27,7 +27,11 @@ public class EmployeeServiceLogic implements EmployeeService {
      * Return single class instance using Singleton pattern.
      */
     public static EmployeeServiceLogic getInstance() {
-        return OBJECT_INSTANCE;
+
+        if (objectInstance == null) {
+            objectInstance = new EmployeeServiceLogic();
+        }
+        return objectInstance;
     }
 
     /**

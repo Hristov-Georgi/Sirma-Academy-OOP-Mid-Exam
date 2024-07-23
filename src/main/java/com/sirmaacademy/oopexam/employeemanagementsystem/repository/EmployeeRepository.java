@@ -20,7 +20,7 @@ public class EmployeeRepository {
     /**
      * Create single class instance using Singleton pattern.
      */
-    private static final EmployeeRepository OBJECT_INSTANCE = new EmployeeRepository();
+    private static EmployeeRepository objectInstance;
 
     /**
      * Path to the csv file where data is saved and loaded.
@@ -43,7 +43,11 @@ public class EmployeeRepository {
      * Return single instance for current class.
      */
     public static EmployeeRepository getInstance() {
-        return OBJECT_INSTANCE;
+
+        if (objectInstance == null) {
+            objectInstance = new EmployeeRepository();
+        }
+        return objectInstance;
     }
 
     public List<Employee> getEmployeeList() {
