@@ -6,6 +6,7 @@ import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Role;
 import com.sirmaacademy.oopexam.employeemanagementsystem.service.EmployeeService;
 import com.sirmaacademy.oopexam.employeemanagementsystem.service.employeeserviceimpl.EmployeeServiceLogic;
 import com.sirmaacademy.oopexam.employeemanagementsystem.validation.ValidateInputData;
+import org.w3c.dom.ls.LSOutput;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -48,6 +49,23 @@ public abstract class ConsoleRunner {
         System.out.println("10 - Display all Roles");
         System.out.println("11 - Display all Departments");
         System.out.println("12 - Exit and save all data from Employee Management System");
+    }
+
+    /**
+     * Print incorrect entered employees data if such exist.
+     */
+    public static void printIncorrectEmployeeData() {
+        List<String> brokenData = EMPLOYEE_SERVICE.getBrokenEmployeeData();
+
+        if (!brokenData.isEmpty()) {
+            System.out.println();
+            System.out.println("Found incorrect employees data:");
+            System.out.println();
+            printListData(brokenData);
+            System.out.println("Please fix employees data. Check broken_employee_data.csv file for data details.");
+            System.out.println("Only correct employees data will be saved upon exit.");
+        }
+
     }
 
     /**

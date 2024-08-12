@@ -58,4 +58,9 @@ public interface EmployeeService {
      */
     void saveAll();
 
+    /**
+     * Return List of strings with incorrect employees data read from csv data file.
+     */
+    List<String> getBrokenEmployeeData();
+
 }

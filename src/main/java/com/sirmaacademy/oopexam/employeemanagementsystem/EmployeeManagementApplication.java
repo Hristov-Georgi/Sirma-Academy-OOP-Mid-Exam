@@ -1,5 +1,7 @@
 package com.sirmaacademy.oopexam.employeemanagementsystem;
 
+import java.io.Console;
+
 /**
  * Main Employee Management Application.
  */
@@ -8,7 +10,8 @@ public class EmployeeManagementApplication {
 
         ConsoleRunner.welcomeMessage();
         ConsoleRunner.printMenu();
+        ConsoleRunner.printIncorrectEmployeeData();
         ConsoleRunner.readCommands();
-
     }
+
 }

@@ -143,6 +143,14 @@ public class EmployeeServiceLogic implements EmployeeService {
     }
 
     /**
+     * Return List of strings with incorrect employees data read from csv data file.
+     */
+    @Override
+    public List<String> getBrokenEmployeeData() {
+        return this.employeeRepository.getBrokenEmployeeData();
+    }
+
+    /**
      * Save all employees data in csv file upon exit the program.
      */
     @Override

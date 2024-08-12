@@ -32,9 +32,15 @@ public class EmployeeRepository {
      */
     private List<Employee> employeeList = new ArrayList<>();
 
+    private List<String> brokenEmployeeData = new ArrayList<>();
+
     private EmployeeRepository() {
         clearBrokenEmployeeDataContent();
         this.employeeList = loadEmployees();
+    }
+
+    public List<String> getBrokenEmployeeData() {
+        return brokenEmployeeData;
     }
 
     /**
@@ -207,7 +213,8 @@ public class EmployeeRepository {
 
     /**
      * Load all valid stored employees from csv file when program start.
-     * If data is not valid, it is stored in "broken_employee_data.csv file".
+     * If data is not valid, it is stored in "broken_employee_data.csv file" and added to List for
+     * further processing.
      */
     private List<Employee> loadEmployees() {
         List<Employee> employees = new ArrayList<>();
@@ -235,6 +242,7 @@ public class EmployeeRepository {
                 } catch (Exception ex) {
                     writer.write(input);
                     writer.newLine();
+                    this.brokenEmployeeData.add(input);
                 }
                 input = bufferedReader.readLine();
             }
