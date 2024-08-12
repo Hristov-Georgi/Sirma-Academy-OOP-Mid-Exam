@@ -28,7 +28,6 @@ public abstract class ConsoleRunner {
         System.out.println();
         System.out.println("Welcome to Employee Management System");
         System.out.println();
-
     }
 
     /**
@@ -72,7 +71,7 @@ public abstract class ConsoleRunner {
                     int n = Integer.parseInt(input);
                 } catch (NumberFormatException ex) {
                     System.out.println("Invalid command \"" + input + "\"");
-                    readCommands();
+                    continue;
                 }
 
                 switch (Integer.parseInt(input)) {
