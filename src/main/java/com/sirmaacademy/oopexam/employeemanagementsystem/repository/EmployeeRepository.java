@@ -7,9 +7,7 @@ import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Status;
 
 import java.io.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 /**
  * This class handles operations with file - load data from file and
@@ -27,22 +25,22 @@ public class EmployeeRepository {
      */
     private static final String EMPLOYEES_CSV_FILE = "src/main/resources/employeerepository/employees_data.csv";
 
+    private static final String BROKEN_EMPLOYEE_DATA_FILE = "src/main/resources/employeerepository/broken_employee_data.csv";
+
     /**
      * Store employees while program is running.
      */
     private List<Employee> employeeList = new ArrayList<>();
 
-    private EmployeeRepository(){
-        if (!loadEmployees().isEmpty()) {
-            this.employeeList = loadEmployees();
-        }
-
+    private EmployeeRepository() {
+        clearBrokenEmployeeDataContent();
+        this.employeeList = loadEmployees();
     }
 
     /**
      * Return single instance for current class.
      */
-    public static EmployeeRepository getInstance() {
+    public static EmployeeRepository getInstance(){
 
         if (objectInstance == null) {
             objectInstance = new EmployeeRepository();
@@ -110,18 +108,30 @@ public class EmployeeRepository {
     }
 
     /**
-     * Return Employee if it's id matches to searched(required) id.
+     * Return list of Employee if it's id matches to searched(required) id.
      * Throws NoSuchElementException if id not found.
      */
-    public Employee findById(int id) {
-        for (Employee e : employeeList) {
+    public List<Employee> findById(int id) {
+        List<Employee> employeesById = new ArrayList<>();
+
+        if (id < 1) {
+            throw new NoSuchElementException("Id must be >= 1");
+        }
+
+        for (Employee e : this.employeeList) {
 
             if (e.getId() == id){
-                return e;
+                employeesById.add(e);
             }
 
         }
-        throw new NoSuchElementException("Employee with id: " + id + " not found.");
+
+        if (employeesById.isEmpty()) {
+            throw new NoSuchElementException("Employee with id: " + id + " not found.");
+        } else {
+            return employeesById;
+        }
+
     }
 
     /**
@@ -185,33 +195,52 @@ public class EmployeeRepository {
     }
 
     /**
-     * Load all stored employees from csv file when program start.
+     * When program start clear "broken_employee_data.csv" file to ensure no old fixed records present.
+     */
+    private void clearBrokenEmployeeDataContent() {
+        try (PrintWriter printWriter = new PrintWriter(BROKEN_EMPLOYEE_DATA_FILE)) {
+
+        } catch (FileNotFoundException ex) {
+            System.out.println("File missing");
+        }
+    }
+
+    /**
+     * Load all valid stored employees from csv file when program start.
+     * If data is not valid, it is stored in "broken_employee_data.csv file".
      */
     private List<Employee> loadEmployees() {
         List<Employee> employees = new ArrayList<>();
 
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(EMPLOYEES_CSV_FILE))) {
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(EMPLOYEES_CSV_FILE));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(BROKEN_EMPLOYEE_DATA_FILE, true))) {
+
             String input = bufferedReader.readLine();
 
             while (input != null) {
                 String[] values = input.split(", ");
 
-                int id = Integer.parseInt(values[0]);
-                String firstName = values[1];
-                String lastName = values[2];
-                Department department = Department.valueOf(values[3]);
-                Role role = Role.valueOf(values[4]);
-                BigDecimal salary = BigDecimal.valueOf(Double.parseDouble(values[5]));
-                Status status = Status.valueOf(values[6]);
+                try {
+                    int id = Integer.parseInt(values[0]);
+                    String firstName = values[1];
+                    String lastName = values[2];
+                    Department department = Department.valueOf(values[3]);
+                    Role role = Role.valueOf(values[4]);
+                    BigDecimal salary = BigDecimal.valueOf(Double.parseDouble(values[5]));
+                    Status status = Status.valueOf(values[6]);
 
-                Employee employee = new Employee(id, firstName, lastName, department, role, salary, status);
-                employees.add(employee);
+                    Employee employee = new Employee(id, firstName, lastName, department, role, salary, status);
+                    employees.add(employee);
 
-                this.employeeList.add(employee);
-
+                } catch (Exception ex) {
+                    writer.write(input);
+                    writer.newLine();
+                }
                 input = bufferedReader.readLine();
             }
 
+        } catch (FileNotFoundException ex){
+            System.out.println("File does not exist.");
         } catch (IOException e) {
             System.out.println("Failed to load employees from csv file.");
         }
