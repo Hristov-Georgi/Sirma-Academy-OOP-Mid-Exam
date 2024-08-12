@@ -30,7 +30,7 @@ public abstract class ValidateInputData {
         for (Role r : values) {
 
             if (r.getValue().equalsIgnoreCase(role)) {
-                return Role.valueOf(String.valueOf(r));
+                return r;
             }
 
         }
@@ -47,7 +47,7 @@ public abstract class ValidateInputData {
         for (Department v : values) {
 
             if (v.getValue().equalsIgnoreCase(department)) {
-                return Department.valueOf(String.valueOf(v));
+                return v;
             }
 
         }
