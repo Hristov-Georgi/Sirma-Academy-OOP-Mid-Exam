@@ -7,6 +7,7 @@ import com.sirmaacademy.oopexam.employeemanagementsystem.enums.Status;
 import com.sirmaacademy.oopexam.employeemanagementsystem.repository.EmployeeRepository;
 import com.sirmaacademy.oopexam.employeemanagementsystem.service.EmployeeService;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -59,11 +60,11 @@ public class EmployeeServiceLogic implements EmployeeService {
     }
 
     /**
-     * Return Employee if it's id matches to searched(required) id.
+     * Return employees if id matches to searched(required) id.
      * Throws NoSuchElementException if id not found.
      */
     @Override
-    public Employee findById(int id) {
+    public List<Employee> findById(int id) {
         return this.employeeRepository.findById(id);
     }
 
@@ -103,17 +104,21 @@ public class EmployeeServiceLogic implements EmployeeService {
     @Override
     public void edit(int id, String firstName, String lastName, Department department, Role role, double salary) {
 
-        try {
-            Employee employee = this.employeeRepository.findById(id);
+            List<Employee> employeeList = this.employeeRepository.findById(id);
+
+            if (employeeList.size() > 1) {
+                throw new IllegalArgumentException("There are more than one employee with id: " + id);
+            } else if (employeeList.isEmpty()) {
+                throw new NullPointerException();
+            }
+
+            Employee employee = employeeList.getFirst();
             employee.setFirstName(firstName);
             employee.setLastName(lastName);
             employee.setDepartment(department);
             employee.setRole(role);
             employee.setSalary(salary);
             this.employeeRepository.modifyDetails(id, employee);
-        } catch (NoSuchElementException ex) {
-            System.out.println(ex.getMessage());
-        }
 
     }
 
@@ -122,8 +127,17 @@ public class EmployeeServiceLogic implements EmployeeService {
      * @throws NoSuchElementException if employee id not found.
      */
     @Override
-    public void fire(int id) throws NoSuchElementException{
-            Employee employee = this.employeeRepository.findById(id);
+    public void fire(int id) {
+
+        List<Employee> employeeList = this.employeeRepository.findById(id);
+
+        if (employeeList.size() > 1) {
+            throw new IllegalArgumentException("There are more than one employee with id: " + id);
+        } else if (employeeList.isEmpty()) {
+            throw new NullPointerException("Employee with id: " + id + " not found.");
+        }
+
+            Employee employee = employeeList.getFirst();
             employee.setStatus(Status.FIRED);
             this.employeeRepository.modifyDetails(id, employee);
     }
@@ -141,6 +155,7 @@ public class EmployeeServiceLogic implements EmployeeService {
      */
     private int ensureIdUniqueness() {
         List<Employee> employeeList = this.employeeRepository.getEmployeeList();
+        employeeList.sort(Comparator.comparing(Employee::getId));
 
         if (employeeList.isEmpty()) {
             return INITIAL_ID_VALUE;

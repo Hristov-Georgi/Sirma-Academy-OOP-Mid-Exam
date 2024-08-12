@@ -174,8 +174,8 @@ public abstract class ConsoleRunner {
 
                         try {
                             int idNum = Integer.parseInt(id);
-                            Employee employeeById = EMPLOYEE_SERVICE.findById(idNum);
-                            System.out.println(employeeById);
+                            List<Employee> employeeById = EMPLOYEE_SERVICE.findById(idNum);
+                            printListData(employeeById);
                         } catch (NumberFormatException ex) {
                             System.out.println("Enter valid integer.");
                         } catch (NoSuchElementException ex) {

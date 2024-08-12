@@ -24,9 +24,9 @@ public interface EmployeeService {
     List<Employee> findByFirstAndLastNames(String firstName, String lastName);
 
     /**
-     * Return employee which id match to the searched.
+     * Return employees which id match to the searched.
      */
-    Employee findById(int id);
+    List<Employee> findById(int id);
 
     /**
      * Return List of all employees in searched department.
